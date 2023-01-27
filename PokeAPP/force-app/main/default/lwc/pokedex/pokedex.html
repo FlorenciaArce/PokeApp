@@ -1,0 +1,57 @@
+<template>
+    <lightning-card title="Pokemons" >
+        <lightning-combobox label="Tipo:" value={selectedType} options={options} class="slds-var-m-bottom_small slds-var-p-left_medium slds-var-p-right_medium" onchange={handleChange}></lightning-combobox>
+        <lightning-combobox label="Generacion:" value={generacionSelected} options={options1} class="slds-var-m-bottom_small slds-var-p-left_medium slds-var-p-right_medium" onchange={handleGeneracionChange}></lightning-combobox>
+        <template if:true={pokemon}>
+            <!--<template for:each={pokemon} for:item="pokemon">
+                <li key={pokemon.Id}>{pokemon.Name} - {pokemon.Type__c}</li>
+            </template>-->
+        </template>
+        <lightning-input type="search" 
+                    onchange={handleSearch}
+					variant="label-hidden"
+					class="slds-var-m-bottom_small slds-var-p-left_medium slds-var-p-right_medium"
+					label="Search"
+					placeholder="Buscar por Pokemon"
+					value={searchTerm}>
+        </lightning-input>
+        
+        <template if:true={pokemon}>
+            <p class="pokemones">Pokemones encontrados:{count}</p>
+            <lightning-layout multiple-rows="true">
+                <template for:each={pokemon} for:item="pokemondetails">
+                    <lightning-layout-item key={pokemondetails.Id} slize="3" class="slds-var-p-around_x-small">
+                        <!--empieza la casilla de pokemon-->
+                        <lightning-card title={pokemondetails.Name} class ="pokemon_card"  >
+                            <div slot="actions">
+                                <lightning-button-icon 
+                                icon-name="utility:search" 
+                                icon-class="pokemon-tile-button"
+                                variant="bare" alternative-text="Open record" 
+                                onclick={handlePokemonView} data-pokemon-id={pokemondetails.Id}>
+                                </lightning-button-icon>
+                            </div>
+                            <div class="slds-var-p-horizontal_small">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_8-of-12">
+                                        <img src={pokemondetails.Imagen__c} alt="pokemon" class="pokemon_images"/>
+                                    </div>
+                                    <div class="slds-col slds-size_4-of-12">
+                                        <div class="pokebody">
+                                        <p class="slds-var-m-bottom_xx-small">Generación: {pokemondetails.Generacion__c}</p>
+                                        <p class="slds-var-m-bottom_xx-small">{pokemondetails.Altura__c} mts</p>
+                                        <p class="slds-var-m-bottom_xx-small">{pokemondetails.Peso__c} Kg</p>
+                                        <p class="slds-var-m-bottom_xx-small">Tipo: {pokemondetails.Tipos__c}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning-card>
+                        <!--termina la casilla de pokemon-->
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        
+        </template>
+    </lightning-card>
+</template>
